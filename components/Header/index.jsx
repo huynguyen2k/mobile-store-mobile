@@ -1,15 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Input, useTheme } from 'native-base'
 import HeaderCart from '../HeaderCart'
+import HeaderAccount from '../HeaderAccount'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllCartItems } from '../../app/reducers/cartSlice'
 
-export default function Header() {
+export default function Header({ onSearch }) {
 	const theme = useTheme()
 	const [value, setValue] = useState('')
 
+	const dispatch = useDispatch()
+
+	const user = useSelector(state => state.auth.user)
+	const cartItems = useSelector(state => state.cart.cartItems)
+
 	const handleSearchSubmit = () => {
-		console.log(value)
+		onSearch(value)
 	}
+
+	useEffect(() => {
+		if (!user) return
+		;(async () => {
+			try {
+				await dispatch(getAllCartItems(user.id)).unwrap()
+			} catch (error) {
+				console.log(error)
+			}
+		})()
+	}, [dispatch, user])
 
 	return (
 		<View
@@ -26,7 +45,8 @@ export default function Header() {
 				borderWidth={0}
 			/>
 
-			<HeaderCart />
+			<HeaderCart quantity={cartItems.length} />
+			<HeaderAccount />
 		</View>
 	)
 }

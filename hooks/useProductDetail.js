@@ -1,4 +1,4 @@
-import productApi from 'api/productApi'
+import productApi from '../api/productApi'
 import { useCallback, useEffect, useState } from 'react'
 
 function useProductDetail(id) {

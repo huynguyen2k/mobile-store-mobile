@@ -1,65 +1,74 @@
 import React from 'react'
 import NumberFormat from 'react-number-format'
-import { View, StyleSheet, Image, Text } from 'react-native'
+import { View, StyleSheet, Image, Text, Pressable } from 'react-native'
 import getPromotionPercent from '../../utils/getPromotionPercent'
 import { Rating } from 'react-native-ratings'
+import { useNavigation } from '@react-navigation/native'
 
 export default function ProductCard({ item }) {
+	const navigation = useNavigation()
+
+	const handleClick = () => {
+		navigation.navigate('Detail', { productId: item.id })
+	}
+
 	return (
-		<View style={styles.productCard}>
-			<Image
-				source={{
-					uri: item.images[0].image.replace('localhost', '10.0.2.2'),
-				}}
-				style={styles.productImage}
-			/>
-			<View style={styles.productInfo}>
-				<Text style={styles.productName}>{item.name}</Text>
+		<Pressable onPress={handleClick}>
+			<View style={styles.productCard}>
+				<Image
+					source={{
+						uri: item.images[0].image.replace('localhost', '10.0.2.2'),
+					}}
+					style={styles.productImage}
+				/>
+				<View style={styles.productInfo}>
+					<Text style={styles.productName}>{item.name}</Text>
 
-				<View style={styles.ratingWrap}>
-					<Rating
-						readonly
-						type="custom"
-						ratingCount={5}
-						startingValue={item.rating}
-						imageSize={16}
-						ratingColor="#fadb14"
-						ratingBackgroundColor="#f0f0f0"
-						style={{
-							marginTop: 4,
-							flexDirection: 'row',
-							justifyContent: 'flex-start',
-						}}
-					/>
+					<View style={styles.ratingWrap}>
+						<Rating
+							readonly
+							type="custom"
+							ratingCount={5}
+							startingValue={item.rating}
+							imageSize={16}
+							ratingColor="#fadb14"
+							ratingBackgroundColor="#f0f0f0"
+							style={{
+								marginTop: 4,
+								flexDirection: 'row',
+								justifyContent: 'flex-start',
+							}}
+						/>
 
-					<Text style={styles.soldQuantity}>đã bán {item.sold_quantity}</Text>
-				</View>
+						<Text style={styles.soldQuantity}>đã bán {item.sold_quantity}</Text>
+					</View>
 
-				<View style={styles.priceWrap}>
-					<NumberFormat
-						thousandSeparator
-						displayType="text"
-						decimalSeparator="."
-						value={item.sale_price}
-						renderText={value => (
-							<Text style={styles.price}>{`${value.replace(
-								/,/g,
-								'.'
-							)} ₫`}</Text>
+					<View style={styles.priceWrap}>
+						<NumberFormat
+							thousandSeparator
+							displayType="text"
+							decimalSeparator="."
+							value={item.sale_price}
+							renderText={value => (
+								<Text style={styles.price}>{`${value.replace(
+									/,/g,
+									'.'
+								)} ₫`}</Text>
+							)}
+						/>
+
+						{item.sale_price < item.original_price && (
+							<Text style={styles.promotionPercent}>
+								{`-${getPromotionPercent(
+									item.original_price,
+									item.sale_price
+								).toFixed(0)}%`}
+							</Text>
 						)}
-					/>
-
-					{item.sale_price < item.original_price && (
-						<Text style={styles.promotionPercent}>
-							{`-${getPromotionPercent(
-								item.original_price,
-								item.sale_price
-							).toFixed(0)}%`}
-						</Text>
-					)}
+					</View>
 				</View>
 			</View>
-		</View>
+		</Pressable>
 	)
 }
 

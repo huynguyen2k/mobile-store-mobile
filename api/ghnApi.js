@@ -6,7 +6,7 @@ const ghnApi = {
 			'https://online-gateway.ghn.vn/shiip/public-api/master-data/province'
 		return axiosClient.get(url, {
 			headers: {
-				token: process.env.REACT_APP_GHN_TOKEN,
+				token: '452f1b76-7096-11ec-bde8-6690e1946f41',
 			},
 		})
 	},
@@ -21,7 +21,7 @@ const ghnApi = {
 			},
 			{
 				headers: {
-					token: process.env.REACT_APP_GHN_TOKEN,
+					token: '452f1b76-7096-11ec-bde8-6690e1946f41',
 				},
 			}
 		)
@@ -37,7 +37,7 @@ const ghnApi = {
 			},
 			{
 				headers: {
-					token: process.env.REACT_APP_GHN_TOKEN,
+					token: '452f1b76-7096-11ec-bde8-6690e1946f41',
 				},
 			}
 		)
@@ -48,7 +48,7 @@ const ghnApi = {
 			'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services'
 		return axiosClient.post(url, data, {
 			headers: {
-				token: process.env.REACT_APP_GHN_TOKEN,
+				token: '452f1b76-7096-11ec-bde8-6690e1946f41',
 			},
 		})
 	},
@@ -58,8 +58,8 @@ const ghnApi = {
 			'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee'
 		return axiosClient.post(url, data, {
 			headers: {
-				token: process.env.REACT_APP_GHN_TOKEN,
-				shop_id: process.env.REACT_APP_GHN_SHOP_ID,
+				token: '452f1b76-7096-11ec-bde8-6690e1946f41',
+				shop_id: 2415850,
 			},
 		})
 	},
